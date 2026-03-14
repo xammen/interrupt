@@ -1,0 +1,164 @@
+"""
+task_scheduler.py - Async task scheduler with priority queue, dependency resolution,
+concurrent execution, retry logic, and observer pattern event emission.
+"""
+
+from __future__ import annotations
+
+import asyncio
+import time
+from collections import defaultdict, deque
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+from typing import Any, Callable, Coroutine, Dict, List, Optional, Set
+
+
+# ---------------------------------------------------------------------------
+# Enums & Exceptions
+# ---------------------------------------------------------------------------
+
+class TaskStatus(Enum):
+    PENDING = "PENDING"
+    RUNNING = "RUNNING"
+    COMPLETED = "COMPLETED"
+    FAILED = "FAILED"
+
+
+class CircularDependencyError(Exception):
+    """Raised when a circular dependency is detected in the task graph."""
+
+
+class TaskNotFoundError(Exception):
+    """Raised when a referenced task ID does not exist."""
+
+
+# ---------------------------------------------------------------------------
+# Task dataclass
+# ---------------------------------------------------------------------------
+
+@dataclass
+class Task:
+    """Represents a unit of work managed by the scheduler.
+
+    Attributes:
+        id: Unique identifier for the task.
+        name: Human-readable name.
+        priority: Execution priority (1 = lowest, 10 = highest).
+        dependencies: List of task IDs that must complete before this task runs.
+        status: Current lifecycle status.
+        retry_count: Number of retries attempted so far.
+        max_retries: Maximum number of retry attempts before marking FAILED.
+        created_at: Timestamp of task creation.
+        result: Stores the return value after successful execution.
+        _fn: The async callable to execute (not included in repr by default).
+    """
+
+    id: str
+    name: str
+    priority: int  # 1-10
+    dependencies: List[str] = field(default_factory=list)
+    status: TaskStatus = TaskStatus.PENDING
+    retry_count: int = 0
+    max_retries: int = 3
+    created_at: datetime = field(default_factory=datetime.utcnow)
+    result: Optional[Any] = None
+    _fn: Optional[Callable[[], Coroutine[Any, Any, Any]]] = field(
+        default=None, repr=False, compare=False
+    )
+
+    def __post_init__(self) -> None:
+        if not 1 <= self.priority <= 10:
+            raise ValueError(f"priority must be between 1 and 10, got {self.priority}")
+
+
+# ---------------------------------------------------------------------------
+# Metrics
+# ---------------------------------------------------------------------------
+
+@dataclass
+class TaskMetrics:
+    """Execution metrics for a single task."""
+
+    task_id: str
+    start_time: float = 0.0
+    end_time: float = 0.0
+    retry_count: int = 0
+
+    @property
+    def elapsed(self) -> float:
+        """Wall-clock time in seconds from start to end."""
+        return self.end_time - self.start_time
+
+
+@dataclass
+class SchedulerMetrics:
+    """Aggregate metrics for an entire scheduler run."""
+
+    total_start: float = 0.0
+    total_end: float = 0.0
+    tasks: Dict[str, TaskMetrics] = field(default_factory=dict)
+
+    @property
+    def total_elapsed(self) -> float:
+        return self.total_end - self.total_start
+
+
+# ---------------------------------------------------------------------------
+# TaskScheduler
+# ---------------------------------------------------------------------------
+
+class TaskScheduler:
+    """Async task scheduler with dependency resolution, concurrency limiting,
+    exponential-backoff retries, and an observer pattern for lifecycle events.
+
+    Args:
+        max_concurrency: Maximum number of tasks that may run simultaneously.
+                         Defaults to 4.
+    """
+
+    def __init__(self, max_concurrency: int = 4) -> None:
+        self._tasks: Dict[str, Task] = {}
+        self._max_concurrency = max_concurrency
+        self._semaphore: Optional[asyncio.Semaphore] = None
+        self.metrics = SchedulerMetrics()
+
+        # Observer callbacks
+        self._on_task_start: List[Callable[[Task], None]] = []
+        self._on_task_complete: List[Callable[[Task], None]] = []
+        self._on_task_fail: List[Callable[[Task, Exception], None]] = []
+
+    # ------------------------------------------------------------------
+    # Public API — task registration
+    # ------------------------------------------------------------------
+
+    def add_task(self, task: Task) -> None:
+        """Register a task with the scheduler.
+
+        Args:
+            task: The :class:`Task` instance to register.
+
+        Raises:
+            ValueError: If a task with the same ID already exists.
+        """
+        if task.id in self._tasks:
+            raise ValueError(f"Task with id '{task.id}' already registered.")
+        self._tasks[task.id] = task
+
+    # ------------------------------------------------------------------
+    # Observer registration
+    # ------------------------------------------------------------------
+
+    def on_task_start(self, callback: Callable[[Task], None]) -> None:
+        """Register a callback invoked just before a task begins execution."""
+        self._on_task_start.append(callback)
+
+    def on_task_complete(self, callback: Callable[[Task], None]) -> None:
+        """Register a callback invoked after a task completes successfully."""
+        self._on_task_complete.append(callback)
+
+    def on_task_fail(self, callback: Callable[[Task, Exception], None]) -> None:
+        """Register a callback invoked after a task exhausts all retries."""
+        self._on_task_fail.append(callback)
+
+    # ------------------------------------------------------------------

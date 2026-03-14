@@ -1,0 +1,142 @@
+================================================================================
+     THE INTERRUPT EFFECT - Experimental Results
+     Does interrupting LLM code generation change the output?
+================================================================================
+
+METHODOLOGY:
+  - Same prompt used for all runs (async task scheduler with tests)
+  - 3 conditions per model, 5 runs each = 30 total runs
+  - COMPLETE:    Full uninterrupted generation
+  - INTERRUPTED: Generation killed at 20s, then fresh re-generation
+  - FRAGMENT:    Complete run cut at 50%, fragment fed back to continue
+  - Models: Claude Sonnet 4.6, Claude Opus 4.6 (via Anthropic API)
+
+
+================================================================================
+  MODEL: SONNET (claude-sonnet-4-6)
+================================================================================
+
+METRIC                    |           COMPLETE |        INTERRUPTED |           FRAGMENT
+--------------------------------------------------------------------------------------
+Main file lines           |    371.2 +/- 40.5 |    350.8 +/- 16.6 |    420.0 +/- 55.3
+Functions                 |     15.4 +/-  2.5 |     14.2 +/-  1.9 |     18.8 +/-  2.0
+Classes                   |      7.2 +/-  1.5 |      7.0 +/-  1.0 |      7.2 +/-  1.5
+Async functions           |      2.8 +/-  0.8 |      2.8 +/-  0.5 |      3.6 +/-  1.1
+Docstring coverage        |      0.8 +/-  0.0 |      0.8 +/-  0.1 |      0.8 +/-  0.1
+Type hints                |     25.4 +/-  4.3 |     25.4 +/-  2.7 |     31.2 +/-  3.0
+Try/except blocks         |      1.4 +/-  0.9 |                1.0 |      2.4 +/-  0.9
+Feature score /10         |                9.0 |                9.0 |                9.0
+Syntax valid (main)       |               1.00 |               1.00 |               1.00
+Test functions            |     22.0 +/-  3.4 |     20.2 +/-  3.0 |     50.0 +/-  6.0
+Test file lines           |    421.2 +/- 49.6 |    427.4 +/- 30.8 |    572.6 +/- 52.8
+Assert statements         |     28.0 +/-  2.8 |     30.4 +/-  4.0 |     57.2 +/-  5.9
+Syntax valid (test)       |               1.00 |               1.00 |               1.00
+
+  INTRA-CONDITION CODE SIMILARITY (how consistent is each condition):
+                complete: 0.1745 mean similarity (stdev: 0.1515)
+             interrupted: 0.3384 mean similarity (stdev: 0.0864)
+       fragment_continue: 0.1469 mean similarity (stdev: 0.1051)
+
+  CROSS-CONDITION SIMILARITY (how different are conditions from each other):
+    complete vs interrupted: 0.2395 mean similarity
+    complete vs fragment_continue: 0.2709 mean similarity
+    interrupted vs fragment_continue: 0.2307 mean similarity
+
+  FEATURE PRESENCE (per condition):
+    Feature                |       complete |    interrupted | fragment_continue
+    ------------------------------------------------------------------------
+    Dataclass              | 5/          5 | 5/          5 | 5/          5
+    Enum                   | 5/          5 | 5/          5 | 5/          5
+    Priority Queue         | 0/          5 | 0/          5 | 0/          5
+    Topological Sort       | 5/          5 | 5/          5 | 5/          5
+    Circular Detection     | 5/          5 | 5/          5 | 5/          5
+    Asyncio                | 5/          5 | 5/          5 | 5/          5
+    Exp. Backoff           | 5/          5 | 5/          5 | 5/          5
+    Semaphore              | 5/          5 | 5/          5 | 5/          5
+    Observer Pattern       | 5/          5 | 5/          5 | 5/          5
+    Metrics                | 5/          5 | 5/          5 | 5/          5
+
+================================================================================
+  MODEL: OPUS (claude-opus-4-6)
+================================================================================
+
+METRIC                    |           COMPLETE |        INTERRUPTED |           FRAGMENT
+--------------------------------------------------------------------------------------
+Main file lines           |    363.0 +/- 46.6 |    367.8 +/- 48.2 |    382.6 +/- 47.4
+Functions                 |     14.4 +/-  2.3 |     15.0 +/-  2.4 |     16.4 +/-  2.6
+Classes                   |      6.0 +/-  1.0 |      5.8 +/-  0.8 |      6.0 +/-  1.0
+Async functions           |      3.0 +/-  0.7 |                2.0 |      2.8 +/-  0.5
+Docstring coverage        |      0.8 +/-  0.0 |      0.8 +/-  0.0 |      0.9 +/-  0.0
+Type hints                |     25.0 +/-  2.5 |     26.6 +/-  4.0 |     29.0 +/-  4.1
+Try/except blocks         |      1.2 +/-  0.5 |      1.2 +/-  0.5 |      1.4 +/-  0.6
+Feature score /10         |                9.0 |                9.0 |      8.6 +/-  0.6
+Syntax valid (main)       |               1.00 |               1.00 |               1.00
+Test functions            |     10.4 +/-  1.3 |     11.6 +/-  4.8 |     42.8 +/-  7.6
+Test file lines           |    282.8 +/- 28.3 |    298.4 +/- 45.5 |    536.2 +/- 70.3
+Assert statements         |     25.2 +/-  4.4 |     27.4 +/-  5.4 |     67.0 +/- 14.4
+Syntax valid (test)       |               1.00 |               1.00 |               1.00
+
+  INTRA-CONDITION CODE SIMILARITY (how consistent is each condition):
+                complete: 0.4282 mean similarity (stdev: 0.1057)
+             interrupted: 0.2556 mean similarity (stdev: 0.0481)
+       fragment_continue: 0.3151 mean similarity (stdev: 0.1017)
+
+  CROSS-CONDITION SIMILARITY (how different are conditions from each other):
+    complete vs interrupted: 0.3241 mean similarity
+    complete vs fragment_continue: 0.4154 mean similarity
+    interrupted vs fragment_continue: 0.2740 mean similarity
+
+  FEATURE PRESENCE (per condition):
+    Feature                |       complete |    interrupted | fragment_continue
+    ------------------------------------------------------------------------
+    Dataclass              | 5/          5 | 5/          5 | 5/          5
+    Enum                   | 5/          5 | 5/          5 | 5/          5
+    Priority Queue         | 0/          5 | 0/          5 | 0/          5
+    Topological Sort       | 5/          5 | 5/          5 | 5/          5
+    Circular Detection     | 5/          5 | 5/          5 | 5/          5
+    Asyncio                | 5/          5 | 5/          5 | 5/          5
+    Exp. Backoff           | 5/          5 | 5/          5 | 3/          5
+    Semaphore              | 5/          5 | 5/          5 | 5/          5
+    Observer Pattern       | 5/          5 | 5/          5 | 5/          5
+    Metrics                | 5/          5 | 5/          5 | 5/          5
+
+
+================================================================================
+  KEY FINDINGS & ANALYSIS
+================================================================================
+
+
+--- SONNET ---
+
+  Feature completeness (complete vs interrupted): 9.0 vs 9.0 (+0.0)
+    -> No significant difference in feature completeness
+
+  Feature completeness (complete vs fragment): 9.0 vs 9.0 (+0.0)
+    -> No significant difference
+
+  Test count (complete vs interrupted): 22.0 vs 20.2
+  Test count (complete vs fragment): 22.0 vs 50.0
+
+  Code size (complete vs interrupted): 371 vs 351 lines (-5.5%)
+  Code size (complete vs fragment): 371 vs 420 lines (+13.1%)
+
+--- OPUS ---
+
+  Feature completeness (complete vs interrupted): 9.0 vs 9.0 (+0.0)
+    -> No significant difference in feature completeness
+
+  Feature completeness (complete vs fragment): 9.0 vs 8.6 (-0.4)
+    -> No significant difference
+
+  Test count (complete vs interrupted): 10.4 vs 11.6
+  Test count (complete vs fragment): 10.4 vs 42.8
+
+  Code size (complete vs interrupted): 363 vs 368 lines (+1.3%)
+  Code size (complete vs fragment): 363 vs 383 lines (+5.4%)
+
+
+================================================================================
+  CONCLUSIONS
+================================================================================
+
+  (See raw data in analysis/full_analysis.json for statistical details)

@@ -1,0 +1,6 @@
+
+
+I'll plan this out and then implement it.
+[93m[1m| [0m[90m Todo     [0m9 todos
+[93m[1m| [0m[90m Todo     [0m9 todos
+Now I'll write the main module and the test file.

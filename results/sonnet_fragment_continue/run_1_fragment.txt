@@ -1,0 +1,191 @@
+"""
+task_scheduler.py
+=================
+Async task scheduler with priority queuing, dependency resolution,
+concurrent execution, exponential backoff retries, and observer events.
+"""
+
+from __future__ import annotations
+
+import asyncio
+import time
+from collections import defaultdict, deque
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from enum import Enum, auto
+from typing import Any, Callable, Coroutine, Dict, List, Optional, Set
+
+
+# ---------------------------------------------------------------------------
+# Enums & Exceptions
+# ---------------------------------------------------------------------------
+
+class TaskStatus(Enum):
+    PENDING = auto()
+    RUNNING = auto()
+    COMPLETED = auto()
+    FAILED = auto()
+
+
+class CircularDependencyError(Exception):
+    """Raised when a circular dependency is detected in the task graph."""
+
+
+class DuplicateTaskError(Exception):
+    """Raised when a task with the same ID is added more than once."""
+
+
+class MissingDependencyError(Exception):
+    """Raised when a task references a dependency that has not been registered."""
+
+
+# ---------------------------------------------------------------------------
+# Task dataclass
+# ---------------------------------------------------------------------------
+
+@dataclass
+class Task:
+    """Represents a unit of work managed by the scheduler.
+
+    Attributes:
+        id: Unique identifier for the task.
+        name: Human-readable name.
+        priority: Execution priority (1 = lowest, 10 = highest).
+        dependencies: List of task IDs that must complete before this task runs.
+        status: Current lifecycle status.
+        retry_count: Number of retry attempts consumed so far.
+        max_retries: Maximum number of retry attempts before marking as FAILED.
+        created_at: UTC timestamp when the task was created.
+        result: Value returned by the task coroutine on success.
+    """
+
+    id: str
+    name: str
+    priority: int  # 1–10
+    dependencies: List[str] = field(default_factory=list)
+    status: TaskStatus = TaskStatus.PENDING
+    retry_count: int = 0
+    max_retries: int = 3
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    result: Optional[Any] = None
+
+    def __post_init__(self) -> None:
+        if not 1 <= self.priority <= 10:
+            raise ValueError(f"priority must be between 1 and 10, got {self.priority}")
+
+
+# ---------------------------------------------------------------------------
+# Execution metrics
+# ---------------------------------------------------------------------------
+
+@dataclass
+class TaskMetrics:
+    """Per-task timing and retry data collected during execution."""
+
+    task_id: str
+    start_time: Optional[float] = None
+    end_time: Optional[float] = None
+    retry_count: int = 0
+
+    @property
+    def elapsed(self) -> Optional[float]:
+        """Wall-clock seconds taken by the task (None if not finished)."""
+        if self.start_time is not None and self.end_time is not None:
+            return self.end_time - self.start_time
+        return None
+
+
+@dataclass
+class SchedulerMetrics:
+    """Aggregate metrics for an entire scheduler run."""
+
+    total_start: Optional[float] = None
+    total_end: Optional[float] = None
+    tasks: Dict[str, TaskMetrics] = field(default_factory=dict)
+
+    @property
+    def total_elapsed(self) -> Optional[float]:
+        if self.total_start is not None and self.total_end is not None:
+            return self.total_end - self.total_start
+        return None
+
+
+# ---------------------------------------------------------------------------
+# Observer / event system
+# ---------------------------------------------------------------------------
+
+EventHandler = Callable[["Task"], Coroutine[Any, Any, None]]
+
+
+class EventBus:
+    """Simple async observer that dispatches named events to registered handlers."""
+
+    def __init__(self) -> None:
+        self._handlers: Dict[str, List[EventHandler]] = defaultdict(list)
+
+    def subscribe(self, event: str, handler: EventHandler) -> None:
+        """Register *handler* to be called whenever *event* is emitted."""
+        self._handlers[event].append(handler)
+
+    async def emit(self, event: str, task: "Task") -> None:
+        """Call all handlers registered for *event*, passing *task*."""
+        for handler in self._handlers[event]:
+            await handler(task)
+
+
+# ---------------------------------------------------------------------------
+# TaskScheduler
+# ---------------------------------------------------------------------------
+
+class TaskScheduler:
+    """Priority-aware async task scheduler with dependency resolution.
+
+    Features
+    --------
+    * Topological sort for dependency ordering.
+    * Circular dependency detection (raises :class:`CircularDependencyError`).
+    * Concurrent execution within configurable ``max_concurrent`` limit.
+    * Exponential backoff retry logic for failed tasks.
+    * Observer pattern via :class:`EventBus` (``on_task_start``,
+      ``on_task_complete``, ``on_task_fail``).
+    * :meth:`get_execution_plan` returns ordered execution groups.
+    * :attr:`metrics` exposes per-task and aggregate timing data.
+
+    Parameters
+    ----------
+    max_concurrent:
+        Maximum number of tasks that may run simultaneously.
+        Defaults to ``5``.
+    base_backoff:
+        Base delay in seconds for exponential backoff.
+        Retry *n* waits ``base_backoff * 2 ** (n - 1)`` seconds.
+        Defaults to ``1.0``.
+    """
+
+    def __init__(
+        self,
+        max_concurrent: int = 5,
+        base_backoff: float = 1.0,
+    ) -> None:
+        self._tasks: Dict[str, Task] = {}
+        self._coroutines: Dict[str, Callable[..., Coroutine[Any, Any, Any]]] = {}
+        self.max_concurrent = max_concurrent
+        self.base_backoff = base_backoff
+        self.events = EventBus()
+        self.metrics = SchedulerMetrics()
+
+    # ------------------------------------------------------------------
+    # Task registration
+    # ------------------------------------------------------------------
+
+    def add_task(
+        self,
+        task: Task,
+        coroutine_fn: Callable[..., Coroutine[Any, Any, Any]],
+    ) -> None:
+        """Register a task and its associated async callable.
+
+        Parameters
+        ----------
+        task:
+            The :class:`Task` to schedule.

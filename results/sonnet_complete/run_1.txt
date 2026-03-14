@@ -1,0 +1,46 @@
+[93m[1m| [0m[90m Todo     [0m2 todos
+[92m[1m| [0m[90m Write    [0mUsers\xammen\interrupt-study\task_scheduler.py
+[93m[1m| [0m[90m Todo     [0m1 todos
+[92m[1m| [0m[90m Write    [0mUsers\xammen\interrupt-study\test_task_scheduler.py
+[93m[1m| [0m[90m Todo     [0m0 todos
+Both files are written. Here's a summary of what was implemented:
+
+---
+
+## `task_scheduler.py`
+
+### Data model
+| Component | Details |
+|---|---|
+| `TaskStatus` | `PENDING / RUNNING / COMPLETED / FAILED` enum |
+| `Task` | Dataclass with all required fields; `__post_init__` validates `priority ∈ [1,10]` |
+| `TaskMetrics` / `SchedulerMetrics` | Per-task `start/end/elapsed` + aggregate `total_elapsed` |
+
+### `TaskScheduler`
+| Feature | Implementation |
+|---|---|
+| Priority queue | Tasks sorted descending by priority within each dependency wave |
+| Dependency resolution | Kahn's algorithm (BFS topological sort) → returns `List[List[str]]` execution groups |
+| Circular dependency | Detected when visited count < task count after Kahn's; raises `CircularDependencyError` |
+| Concurrent execution | `asyncio.gather` per wave, gated by `asyncio.Semaphore(max_concurrent)` |
+| Exponential backoff | Retry *n* sleeps `base_backoff * 2^(n-1)` seconds |
+| Observer pattern | `EventBus.subscribe(event, async_handler)` → fires `on_task_start`, `on_task_complete`, `on_task_fail` |
+| `get_execution_plan()` | Returns priority-sorted dependency waves |
+
+---
+
+## `test_task_scheduler.py` — 27 tests across 5 classes
+
+| Class | What it covers |
+|---|---|
+| `TestBasicExecution` | Single/multi task completion, result storage, metrics, observer, duplicate/invalid priority |
+| `TestDependencyResolution` | Ordering guarantees, plan grouping, missing deps, deep chains, priority within wave |
+| `TestCircularDependency` | 2-node, self, 3-node cycles; `run()` propagation; non-cycle passes |
+| `TestRetryLogic` | Succeed after retries, fail after max, `on_task_fail` event, backoff delay values, zero retries |
+| `TestConcurrencyLimit` | Peak concurrency ≤ limit, concurrent overlap proof, serial-with-limit-1, `on_task_start` fires all |
+
+Run with:
+```bash
+pip install pytest pytest-asyncio
+pytest test_task_scheduler.py -v
+```
