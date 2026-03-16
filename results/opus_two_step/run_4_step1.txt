@@ -1,0 +1,18 @@
+[92m[1m| [0m[90m Write    [0mworkdirs\opus_two_step\run_4\task_scheduler.py
+The module has been written to `task_scheduler.py`. Here's a summary of what's included:
+
+**Dataclasses / Enums:**
+- `TaskStatus` enum: PENDING, RUNNING, COMPLETED, FAILED
+- `Task` dataclass with all requested fields (id, name, priority 1-10, dependencies, status, retry_count, max_retries=3, created_at, result)
+- `TaskMetrics` / `SchedulerMetrics` for execution tracking
+
+**`TaskScheduler` class features:**
+- **Priority queue** — tasks within each execution group are sorted by descending priority
+- **Topological sort** (Kahn's algorithm) to resolve dependency graphs into concurrent execution groups
+- **`CircularDependencyError`** raised when cycles are detected
+- **Concurrent execution** via `asyncio.gather` with a configurable `asyncio.Semaphore` for max parallelism
+- **Exponential backoff retries** — delay = `base * 2^(attempt-1)`, up to `max_retries`
+- **Observer pattern** — `on(event, listener)` / `off(event, listener)` for `on_task_start`, `on_task_complete`, `on_task_fail` (supports both sync and async listeners)
+- **`get_execution_plan()`** — returns ordered groups of task IDs without executing
+- **Metrics tracking** — total time, per-task duration, retry counts
+- **Failed-dependency propagation** — tasks whose dependencies failed are skipped and marked FAILED

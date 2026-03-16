@@ -1,0 +1,17 @@
+[92m[1m| [0m[90m Write    [0mworkdirs\sonnet_two_step\run_2\task_scheduler.py
+`task_scheduler.py` is written. Here's a summary of what's implemented:
+
+**`Task` dataclass** — all required fields plus an optional `fn: AsyncCallable` that holds the actual coroutine to execute.
+
+**`TaskScheduler` class:**
+
+| Feature | Implementation |
+|---|---|
+| Priority queue | Tasks sorted descending by `priority` within each topological wave |
+| Dependency resolution | Kahn's algorithm → returns `List[List[str]]` execution groups |
+| Circular dependency detection | Leftover non-zero in-degrees after Kahn's → raises `CircularDependencyError` |
+| Concurrent execution | `asyncio.gather` per group, bounded by `asyncio.Semaphore(max_concurrency)` |
+| Retry + exponential backoff | `2 ** (retry_count - 1)` second delay; stops after `max_retries` exceeded |
+| Observer pattern | `EventBus.subscribe(event, async_callback)` / `emit`; events: `on_task_start`, `on_task_complete`, `on_task_fail` |
+| `get_execution_plan()` | Returns topologically-sorted groups without executing |
+| Metrics | `SchedulerMetrics` (total wall time) + per-task `TaskMetrics` (start/end/elapsed/retries) |

@@ -1,0 +1,23 @@
+[92m[1m| [0m[90m Write    [0mworkdirs\opus_two_step\run_3\task_scheduler.py
+Let me fix that type error:
+[96m[1m| [0m[90m Read     [0mworkdirs\opus_two_step\run_3\task_scheduler.py
+[92m[1m| [0m[90m Edit     [0mworkdirs\opus_two_step\run_3\task_scheduler.py
+The module is written at `task_scheduler.py`. Here's a summary of what's included:
+
+**`Task` dataclass** — All requested fields (`id`, `name`, `priority` 1–10, `dependencies`, `status`, `retry_count`, `max_retries`, `created_at`, `result`) with validation on priority.
+
+**`TaskStatus` enum** — `PENDING`, `RUNNING`, `COMPLETED`, `FAILED`.
+
+**`CircularDependencyError`** — Raised with the detected cycle path for debugging.
+
+**`TaskMetrics` dataclass** — Tracks `total_time`, `per_task_time`, and `retry_counts`.
+
+**`TaskScheduler` class** with:
+- **Priority queue via topological sort** — Tasks are grouped into layers; within each layer, higher-priority tasks are ordered first.
+- **Dependency resolution** — Kahn's algorithm produces execution layers. Tasks in the same layer run concurrently.
+- **Circular dependency detection** — DFS-based cycle finder with the actual cycle returned in the error.
+- **Concurrent execution** — `asyncio.gather` runs independent tasks in parallel, gated by a configurable `asyncio.Semaphore` (`max_concurrency`).
+- **Exponential backoff retries** — Delay doubles each attempt (`base_backoff * 2^(attempt-1)`), up to `max_retries`.
+- **Observer pattern** — `on()` subscribes listeners; events emitted: `on_task_start`, `on_task_complete`, `on_task_fail`. Supports both sync and async listeners.
+- **`get_execution_plan()`** — Returns ordered groups of `Task` objects without executing.
+- **Failure propagation** — If a task fails after exhausting retries, all transitive dependants are marked `FAILED`.

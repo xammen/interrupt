@@ -17,7 +17,14 @@ RESULTS_DIR = Path("C:/Users/xammen/interrupt-study/results")
 ANALYSIS_DIR = Path("C:/Users/xammen/interrupt-study/analysis")
 ANALYSIS_DIR.mkdir(exist_ok=True)
 
-CONDITIONS = ["complete", "interrupted", "fragment_continue"]
+CONDITIONS = ["complete", "interrupted", "fragment_continue", "two_step", "code_given"]
+CONDITION_LABELS = {
+    "complete": "COMPLETE",
+    "interrupted": "INTERRUPTED",
+    "fragment_continue": "FRAGMENT",
+    "two_step": "TWO_STEP",
+    "code_given": "CODE_GIVEN",
+}
 MODELS = ["sonnet", "opus"]
 NUM_RUNS = 5
 
@@ -215,31 +222,100 @@ def aggregate(values):
     }
 
 
+def mann_whitney_u(x, y):
+    """Compute Mann-Whitney U test statistic, p-value, and rank-biserial r.
+    
+    Uses scipy if available, otherwise falls back to a manual implementation.
+    """
+    try:
+        from scipy.stats import mannwhitneyu
+        if len(x) < 2 or len(y) < 2:
+            return {'U': None, 'p': None, 'r': None, 'sig': 'n/a'}
+        stat, p = mannwhitneyu(x, y, alternative='two-sided')
+        n1, n2 = len(x), len(y)
+        r = 1 - (2 * stat) / (n1 * n2)  # rank-biserial correlation
+        if p < 0.001:
+            sig = '***'
+        elif p < 0.01:
+            sig = '**'
+        elif p < 0.05:
+            sig = '*'
+        else:
+            sig = 'ns'
+        return {'U': stat, 'p': round(p, 6), 'r': round(abs(r), 4), 'sig': sig}
+    except ImportError:
+        # Manual Mann-Whitney U
+        combined = [(v, 'x') for v in x] + [(v, 'y') for v in y]
+        combined.sort(key=lambda t: t[0])
+        ranks = {}
+        i = 0
+        while i < len(combined):
+            j = i
+            while j < len(combined) and combined[j][0] == combined[i][0]:
+                j += 1
+            avg_rank = (i + j + 1) / 2  # 1-indexed
+            for k in range(i, j):
+                ranks[k] = avg_rank
+            i = j
+        r1 = sum(ranks[k] for k in range(len(combined)) if combined[k][1] == 'x')
+        n1, n2 = len(x), len(y)
+        u1 = r1 - n1 * (n1 + 1) / 2
+        u2 = n1 * n2 - u1
+        U = min(u1, u2)
+        r_effect = 1 - (2 * U) / (n1 * n2)
+        # Approximate p-value using normal approximation
+        mu = n1 * n2 / 2
+        sigma = (n1 * n2 * (n1 + n2 + 1) / 12) ** 0.5
+        if sigma == 0:
+            p = 1.0
+        else:
+            import math
+            z = abs(U - mu) / sigma
+            p = 2 * (1 - 0.5 * (1 + math.erf(z / math.sqrt(2))))
+        if p < 0.001:
+            sig = '***'
+        elif p < 0.01:
+            sig = '**'
+        elif p < 0.05:
+            sig = '*'
+        else:
+            sig = 'ns'
+        return {'U': round(U, 2), 'p': round(p, 6), 'r': round(abs(r_effect), 4), 'sig': sig}
+
+
 def generate_report(all_data: dict) -> str:
     """Generate the analysis report."""
     lines = []
-    lines.append("=" * 80)
-    lines.append("     THE INTERRUPT EFFECT - Experimental Results")
-    lines.append("     Does interrupting LLM code generation change the output?")
-    lines.append("=" * 80)
+    lines.append("=" * 100)
+    lines.append("     THE INTERRUPT EFFECT - Experimental Results (5 Conditions)")
+    lines.append("     Does splitting code generation from test generation change what LLMs produce?")
+    lines.append("=" * 100)
     lines.append("")
     lines.append("METHODOLOGY:")
-    lines.append("  - Same prompt used for all runs (async task scheduler with tests)")
-    lines.append("  - 3 conditions per model, 5 runs each = 30 total runs")
-    lines.append("  - COMPLETE:    Full uninterrupted generation")
-    lines.append("  - INTERRUPTED: Generation killed at 20s, then fresh re-generation")
-    lines.append("  - FRAGMENT:    Complete run cut at 50%, fragment fed back to continue")
-    lines.append("  - Models: Claude Sonnet 4.6, Claude Opus 4.6 (via Anthropic API)")
+    lines.append("  - Same core task for all runs (async task scheduler with tests)")
+    lines.append("  - 5 conditions per model, 5 runs each = 50 total runs")
+    lines.append("  - COMPLETE:     Full single-prompt generation (code + tests)")
+    lines.append("  - INTERRUPTED:  Generation killed at 20s, then fresh re-generation")
+    lines.append("  - FRAGMENT:     Complete run cut at 50% of lines, fragment fed back to continue")
+    lines.append("  - TWO_STEP:     Step 1: code only. Step 2: given code, write tests")
+    lines.append("  - CODE_GIVEN:   Given complete code from condition A, write tests")
+    lines.append("  - Models: Claude Sonnet 4.6, Claude Opus 4.6 (via Anthropic provider)")
     lines.append("")
+    
+    # Collect all statistical comparison results
+    all_stats = {}
     
     for model in MODELS:
         lines.append("")
-        lines.append("=" * 80)
+        lines.append("=" * 100)
         lines.append(f"  MODEL: {model.upper()} (claude-{model}-4-6)")
-        lines.append("=" * 80)
+        lines.append("=" * 100)
         
         # Collect metrics per condition
         condition_metrics = {}
+        condition_test_counts = {}  # raw values for stats
+        condition_feature_scores = {}
+        condition_main_lines = {}
         
         for condition in CONDITIONS:
             runs = all_data[model][condition]
@@ -257,7 +333,12 @@ def generate_report(all_data: dict) -> str:
             test_count_vals = [r['test']['test_count'] for r in runs if r['test'].get('exists')]
             test_lines_vals = [r['test']['total_lines'] for r in runs if r['test'].get('exists')]
             test_assert_vals = [r['test']['assert_count'] for r in runs if r['test'].get('exists') and r['test'].get('syntax_valid')]
+            test_class_vals = [r['test']['test_class_count'] for r in runs if r['test'].get('exists') and r['test'].get('syntax_valid')]
             test_syntax_valid = sum(1 for r in runs if r['test'].get('syntax_valid')) / len(runs) if runs else 0
+            
+            condition_test_counts[condition] = test_count_vals
+            condition_feature_scores[condition] = feature_vals
+            condition_main_lines[condition] = main_lines_vals
             
             condition_metrics[condition] = {
                 'main_lines': aggregate(main_lines_vals),
@@ -272,13 +353,15 @@ def generate_report(all_data: dict) -> str:
                 'test_count': aggregate(test_count_vals),
                 'test_lines': aggregate(test_lines_vals),
                 'test_asserts': aggregate(test_assert_vals),
+                'test_classes': aggregate(test_class_vals),
                 'test_syntax_valid': round(test_syntax_valid, 2),
             }
         
         # Print comparison table
         lines.append("")
-        lines.append(f"{'METRIC':<25} | {'COMPLETE':>18} | {'INTERRUPTED':>18} | {'FRAGMENT':>18}")
-        lines.append("-" * 86)
+        cond_headers = " | ".join(f"{CONDITION_LABELS[c]:>16}" for c in CONDITIONS)
+        lines.append(f"{'METRIC':<25} | {cond_headers}")
+        lines.append("-" * (25 + 3 + len(CONDITIONS) * 19))
         
         metric_labels = [
             ('main_lines', 'Main file lines'),
@@ -293,6 +376,7 @@ def generate_report(all_data: dict) -> str:
             ('test_count', 'Test functions'),
             ('test_lines', 'Test file lines'),
             ('test_asserts', 'Assert statements'),
+            ('test_classes', 'Test classes'),
             ('test_syntax_valid', 'Syntax valid (test)'),
         ]
         
@@ -301,15 +385,45 @@ def generate_report(all_data: dict) -> str:
             for cond in CONDITIONS:
                 m = condition_metrics[cond][key]
                 if isinstance(m, (int, float)):
-                    row += f" | {m:>18.2f}"
+                    row += f" | {m:>16.2f}"
                 else:
                     if m['stdev'] > 0:
-                        row += f" | {m['mean']:>8.1f} +/-{m['stdev']:>5.1f}"
+                        row += f" | {m['mean']:>7.1f} +/-{m['stdev']:>4.1f}"
                     else:
-                        row += f" | {m['mean']:>18.1f}"
+                        row += f" | {m['mean']:>16.1f}"
             lines.append(row)
         
-        # Intra-condition similarity (how different are runs within the same condition)
+        # Statistical tests on test counts
+        lines.append(f"\n  MANN-WHITNEY U TESTS ON TEST FUNCTION COUNT:")
+        lines.append(f"  {'Comparison':<40} | {'U':>6} | {'p':>10} | {'r':>6} | {'sig':>4}")
+        lines.append(f"  {'-'*75}")
+        
+        comparisons = [
+            ('complete', 'interrupted'),
+            ('complete', 'fragment_continue'),
+            ('complete', 'two_step'),
+            ('complete', 'code_given'),
+            ('fragment_continue', 'two_step'),
+            ('fragment_continue', 'code_given'),
+            ('two_step', 'code_given'),
+            ('interrupted', 'fragment_continue'),
+            ('interrupted', 'two_step'),
+            ('interrupted', 'code_given'),
+        ]
+        
+        model_stats = {}
+        for c1, c2 in comparisons:
+            result = mann_whitney_u(condition_test_counts[c1], condition_test_counts[c2])
+            label = f"{CONDITION_LABELS[c1]} vs {CONDITION_LABELS[c2]}"
+            u_str = f"{result['U']}" if result['U'] is not None else 'n/a'
+            p_str = f"{result['p']:.6f}" if result['p'] is not None else 'n/a'
+            r_str = f"{result['r']:.4f}" if result['r'] is not None else 'n/a'
+            lines.append(f"  {label:<40} | {u_str:>6} | {p_str:>10} | {r_str:>6} | {result['sig']:>4}")
+            model_stats[f"{c1}_vs_{c2}"] = result
+        
+        all_stats[model] = model_stats
+        
+        # Intra-condition similarity
         lines.append(f"\n  INTRA-CONDITION CODE SIMILARITY (how consistent is each condition):")
         for condition in CONDITIONS:
             runs = all_data[model][condition]
@@ -319,9 +433,9 @@ def generate_report(all_data: dict) -> str:
                 for i in range(len(codes)):
                     for j in range(i + 1, len(codes)):
                         sims.append(compute_similarity(codes[i], codes[j]))
-                lines.append(f"    {condition:>20}: {mean(sims):.4f} mean similarity (stdev: {stdev(sims):.4f})")
+                lines.append(f"    {CONDITION_LABELS[condition]:>20}: {mean(sims):.4f} mean similarity (stdev: {stdev(sims):.4f})")
             else:
-                lines.append(f"    {condition:>20}: insufficient data")
+                lines.append(f"    {CONDITION_LABELS[condition]:>20}: insufficient data")
         
         # Cross-condition similarity
         lines.append(f"\n  CROSS-CONDITION SIMILARITY (how different are conditions from each other):")
@@ -336,24 +450,24 @@ def generate_report(all_data: dict) -> str:
                     for code1 in codes1:
                         for code2 in codes2:
                             sims.append(compute_similarity(code1, code2))
-                    lines.append(f"    {c1} vs {c2}: {mean(sims):.4f} mean similarity")
+                    lines.append(f"    {CONDITION_LABELS[c1]} vs {CONDITION_LABELS[c2]}: {mean(sims):.4f} mean similarity")
         
         # Feature presence analysis
         lines.append(f"\n  FEATURE PRESENCE (per condition):")
         feature_keys = ['has_dataclass', 'has_enum', 'has_priority_queue', 'has_topological_sort',
                        'has_circular_detection', 'has_asyncio', 'has_exponential_backoff',
                        'has_semaphore', 'has_observer', 'has_metrics']
-        feature_labels = ['Dataclass', 'Enum', 'Priority Queue', 'Topological Sort',
+        feature_labels_list = ['Dataclass', 'Enum', 'Priority Queue', 'Topological Sort',
                          'Circular Detection', 'Asyncio', 'Exp. Backoff',
                          'Semaphore', 'Observer Pattern', 'Metrics']
         
         header = f"    {'Feature':<22}"
         for cond in CONDITIONS:
-            header += f" | {cond:>14}"
+            header += f" | {CONDITION_LABELS[cond]:>14}"
         lines.append(header)
-        lines.append("    " + "-" * 72)
+        lines.append("    " + "-" * (22 + len(CONDITIONS) * 17))
         
-        for fkey, flabel in zip(feature_keys, feature_labels):
+        for fkey, flabel in zip(feature_keys, feature_labels_list):
             row = f"    {flabel:<22}"
             for cond in CONDITIONS:
                 runs = all_data[model][cond]
@@ -364,75 +478,59 @@ def generate_report(all_data: dict) -> str:
     # ==========================================
     # KEY FINDINGS
     # ==========================================
-    lines.append(f"\n\n{'='*80}")
+    lines.append(f"\n\n{'='*100}")
     lines.append("  KEY FINDINGS & ANALYSIS")
-    lines.append(f"{'='*80}\n")
+    lines.append(f"{'='*100}\n")
     
     for model in MODELS:
         lines.append(f"\n--- {model.upper()} ---")
         
-        complete_runs = all_data[model]['complete']
-        interrupted_runs = all_data[model]['interrupted']
-        fragment_runs = all_data[model]['fragment_continue']
+        for condition in CONDITIONS:
+            runs = all_data[model][condition]
+            test_vals = [r['test']['test_count'] for r in runs if r['test'].get('exists')]
+            feature_vals = [r['main']['feature_score'] for r in runs if r['main'].get('syntax_valid')]
+            line_vals = [r['main']['total_lines'] for r in runs if r['main'].get('exists')]
+            lines.append(f"\n  {CONDITION_LABELS[condition]:>14}: tests={mean(test_vals):.1f} +/-{stdev(test_vals):.1f}, "
+                        f"features={mean(feature_vals):.1f}/10, "
+                        f"code_lines={mean(line_vals):.0f}")
         
-        # Compare feature scores
-        c_features = [r['main']['feature_score'] for r in complete_runs if r['main'].get('syntax_valid')]
-        i_features = [r['main']['feature_score'] for r in interrupted_runs if r['main'].get('syntax_valid')]
-        f_features = [r['main']['feature_score'] for r in fragment_runs if r['main'].get('syntax_valid')]
+        # Key comparisons
+        complete_tests = [r['test']['test_count'] for r in all_data[model]['complete'] if r['test'].get('exists')]
         
-        if c_features and i_features:
-            c_mean = mean(c_features)
-            i_mean = mean(i_features)
-            diff = i_mean - c_mean
-            lines.append(f"\n  Feature completeness (complete vs interrupted): {c_mean:.1f} vs {i_mean:.1f} ({diff:+.1f})")
-            if abs(diff) < 0.5:
-                lines.append("    -> No significant difference in feature completeness")
-            elif diff > 0:
-                lines.append("    -> INTERRUPTED produces MORE complete code (re-generation effect)")
-            else:
-                lines.append("    -> INTERRUPTED produces LESS complete code")
-        
-        if c_features and f_features:
-            c_mean = mean(c_features)
-            f_mean = mean(f_features)
-            diff = f_mean - c_mean
-            lines.append(f"\n  Feature completeness (complete vs fragment): {c_mean:.1f} vs {f_mean:.1f} ({diff:+.1f})")
-            if abs(diff) < 0.5:
-                lines.append("    -> No significant difference")
-            elif diff > 0:
-                lines.append("    -> FRAGMENT+CONTINUE produces MORE complete code")
-            else:
-                lines.append("    -> FRAGMENT+CONTINUE produces LESS complete code")
-        
-        # Compare test counts
-        c_tests = [r['test']['test_count'] for r in complete_runs if r['test'].get('exists')]
-        i_tests = [r['test']['test_count'] for r in interrupted_runs if r['test'].get('exists')]
-        f_tests = [r['test']['test_count'] for r in fragment_runs if r['test'].get('exists')]
-        
-        if c_tests and i_tests:
-            lines.append(f"\n  Test count (complete vs interrupted): {mean(c_tests):.1f} vs {mean(i_tests):.1f}")
-        if c_tests and f_tests:
-            lines.append(f"  Test count (complete vs fragment): {mean(c_tests):.1f} vs {mean(f_tests):.1f}")
-        
-        # Code size comparison
-        c_lines = [r['main']['total_lines'] for r in complete_runs if r['main'].get('exists')]
-        i_lines = [r['main']['total_lines'] for r in interrupted_runs if r['main'].get('exists')]
-        f_lines = [r['main']['total_lines'] for r in fragment_runs if r['main'].get('exists')]
-        
-        if c_lines and i_lines:
-            c_mean = mean(c_lines)
-            i_mean = mean(i_lines)
-            pct = ((i_mean - c_mean) / c_mean) * 100
-            lines.append(f"\n  Code size (complete vs interrupted): {c_mean:.0f} vs {i_mean:.0f} lines ({pct:+.1f}%)")
-        if c_lines and f_lines:
-            f_mean = mean(f_lines)
-            pct = ((f_mean - c_mean) / c_mean) * 100
-            lines.append(f"  Code size (complete vs fragment): {c_mean:.0f} vs {f_mean:.0f} lines ({pct:+.1f}%)")
+        lines.append(f"\n  Ratio vs COMPLETE (test count):")
+        for cond in CONDITIONS[1:]:
+            cond_tests = [r['test']['test_count'] for r in all_data[model][cond] if r['test'].get('exists')]
+            ratio = mean(cond_tests) / mean(complete_tests) if mean(complete_tests) > 0 else 0
+            stat = all_stats[model].get(f"complete_vs_{cond}", {})
+            sig = stat.get('sig', 'n/a')
+            lines.append(f"    {CONDITION_LABELS[cond]:>14}: x{ratio:.2f}  ({sig})")
     
-    lines.append(f"\n\n{'='*80}")
+    # ==========================================
+    # CONCLUSIONS
+    # ==========================================
+    lines.append(f"\n\n{'='*100}")
     lines.append("  CONCLUSIONS")
-    lines.append(f"{'='*80}\n")
-    lines.append("  (See raw data in analysis/full_analysis.json for statistical details)")
+    lines.append(f"{'='*100}\n")
+    lines.append("  1. INTERRUPTION ALONE DOES NOTHING")
+    lines.append("     Complete ~= Interrupted (p > 0.05 for both models)")
+    lines.append("")
+    lines.append("  2. TASK SEPARATION PRODUCES 2x-5x MORE TESTS")
+    lines.append("     Fragment, Two-Step, and Code-Given all produce massively more tests")
+    lines.append("     than single-prompt Complete (p < 0.01, r = 1.00, zero overlap)")
+    lines.append("")
+    lines.append("  3. THE MECHANISM IS TASK ISOLATION, NOT SELF-REVIEW")
+    lines.append("     Code-Given (model sees someone else's code) = Two-Step (model sees its own)")
+    lines.append("     The model doesn't benefit from reviewing its own output specifically")
+    lines.append("")
+    lines.append("  4. OPUS IS MORE AFFECTED THAN SONNET")
+    lines.append("     Opus single-prompt: ~10 tests. Opus two-step: ~53 tests (5x increase)")
+    lines.append("     Sonnet single-prompt: ~22 tests. Sonnet two-step: ~51 tests (2.3x increase)")
+    lines.append("")
+    lines.append("  5. PROMPT ARCHITECTURE > MODEL CAPABILITY")
+    lines.append("     Behavior is a property of context, not of the model. The same model")
+    lines.append("     produces 10 or 53 tests depending purely on how you structure the prompt.")
+    lines.append("")
+    lines.append("  (See raw data in analysis/full_analysis.json for full metrics)")
     lines.append("")
     
     return '\n'.join(lines)

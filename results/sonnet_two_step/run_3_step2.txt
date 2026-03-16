@@ -1,0 +1,27 @@
+[93m[1m| [0m[90m Todo     [0m1 todos
+[92m[1m| [0m[90m Write    [0mworkdirs\sonnet_two_step\run_3\test_task_scheduler.py
+[93m[1m| [0m[90m Todo     [0m0 todos
+`test_task_scheduler.py` has been written. Here's a summary of what's covered:
+
+**Basic task execution** (`TestBasicExecution`, `TestAddTask`)
+- Single/multiple task completion, result storage, duplicate registration error, `RUNNING` status visible during execution, metrics recorded.
+
+**Dependency resolution** (`TestDependencyResolution`)
+- Linear chains, diamond DAGs, execution order enforced, unknown dependency raises `TaskNotFoundError`, failed dependency cascades to dependents, independent tasks run despite a sibling failure, priority ordering within a layer.
+
+**Circular dependency detection** (`TestCircularDependencyDetection`)
+- 2-node cycle, 3-node cycle, self-loop, cycle inside a mixed graph, error message contains cycle participants, raised from both `get_execution_plan()` and `run()`, no false positive on a valid DAG.
+
+**Retry logic with exponential backoff** (`TestRetryLogic`)
+- Retries on transient failures, fails after exhausting retries, `retry_count` on task and metrics, no retry on immediate success, `asyncio.sleep` called with `1.0 → 2.0 → 4.0` delays (patched), `base_backoff_seconds` scaling, `on_task_fail` event emitted/not-emitted correctly.
+
+**Concurrent execution respecting limits** (`TestConcurrencyLimits`)
+- `max_workers=1` serializes, arbitrary limit not exceeded under load, parallel workers finish measurably faster than serial, default of 4 workers respected, semaphore holds across dependency layers.
+
+**Observer events** (`TestEventEmission`)
+- `on_task_start`, `on_task_complete`, multiple handlers all called, start fires before complete.
+
+Requires `pytest` and `pytest-asyncio`. Run with:
+```
+pytest test_task_scheduler.py -v
+```

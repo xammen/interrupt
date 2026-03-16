@@ -1,0 +1,21 @@
+[92m[1m| [0m[90m Write    [0mworkdirs\sonnet_two_step\run_3\task_scheduler.py
+`task_scheduler.py` has been written. Here's a summary of what's implemented:
+
+**`Task` dataclass** — all required fields with `__post_init__` validation on `priority`.
+
+**`TaskScheduler` class:**
+
+| Feature | Implementation |
+|---|---|
+| Priority queue | Tasks sorted descending by `priority` within each execution layer |
+| Dependency resolution | Kahn's algorithm (`_topological_sort`) producing ordered execution groups |
+| Circular dependency detection | Cycle check via remaining in-degree > 0; raises `CircularDependencyError` |
+| Concurrent execution | `asyncio.gather` per layer, bounded by `asyncio.Semaphore(max_workers)` |
+| Exponential backoff retry | `backoff = base_backoff * 2^attempt`, up to `max_retries` attempts |
+| Concurrency limit | Configurable `max_workers` (default 4) |
+| Observer pattern | `_EventBus` with `on_task_start`, `on_task_complete`, `on_task_fail` |
+| `get_execution_plan()` | Returns `List[List[str]]` of ordered concurrent groups without executing |
+| Execution metrics | `SchedulerMetrics` + per-task `TaskMetrics` (start/end/elapsed/retry_count) |
+| Failure cascading | `_cascade_failure` skips dependents of failed tasks |
+
+**Error types:** `CircularDependencyError`, `TaskNotFoundError`, `RuntimeError` (on retry exhaustion).

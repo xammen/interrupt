@@ -1,0 +1,27 @@
+[92m[1m| [0m[90m Write    [0mworkdirs\sonnet_two_step\run_4\task_scheduler.py
+The module `task_scheduler.py` has been written. Here's a summary of what was implemented:
+
+**Data model**
+- `Task` dataclass with all required fields; `__post_init__` validates priority range.
+- `TaskStatus` enum: `PENDING`, `RUNNING`, `COMPLETED`, `FAILED`.
+- `TaskMetrics` / `SchedulerMetrics` for per-task and aggregate timing.
+
+**`TaskScheduler` class**
+- `add_task(task, coroutine_factory)` — registers a task alongside a zero-argument factory that produces a fresh coroutine per attempt.
+- `get_execution_plan()` — returns `List[List[str]]` of execution groups without running anything.
+- `run()` — executes all tasks, returns `Dict[str, Task]`.
+
+**Dependency resolution**
+- Kahn's topological sort groups independent tasks together.
+- Tasks within a group are sorted by descending priority (10 first).
+- Cycle detection raises `CircularDependencyError`; unknown deps raise `UnknownDependencyError`.
+
+**Concurrency**
+- Groups execute via `asyncio.gather`; an `asyncio.Semaphore` enforces `max_concurrency` (0 = unlimited).
+
+**Retry logic**
+- Up to `task.max_retries` retries with exponential back-off: `base_retry_delay * 2 ** attempt`.
+
+**Observer pattern**
+- `on_task_start`, `on_task_complete`, `on_task_fail` accept `async` callbacks.
+- `_emit` fires all registered callbacks for an event kind.

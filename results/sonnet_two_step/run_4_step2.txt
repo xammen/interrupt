@@ -1,0 +1,28 @@
+
+[93m[1m| [0m[90m Todo     [0m1 todos[92m[1m| [0m[90m Write    [0mworkdirs\sonnet_two_step\run_4\test_task_scheduler.py
+[93m[1m| [0m[90m Todo     [0m0 todos
+`test_task_scheduler.py` has been written. Here's a summary of what's covered:
+
+**Task Dataclass Validation** (`TestTaskValidation`)
+- Priority boundary enforcement (1–10), invalid values, default field values
+
+**Task Registration** (`TestTaskRegistration`)
+- Successful registration, `DuplicateTaskError`, `UnknownDependencyError` on both `.get_execution_plan()` and `.run()`
+
+**Basic Execution** (`TestBasicExecution`)
+- Single and multiple task completion, failure marking, result storage, metrics population
+
+**Dependency Resolution** (`TestDependencyResolution`)
+- Linear chain, diamond topology, `get_execution_plan()` group structure, priority ordering within a group, dependents still attempted when a dependency fails
+
+**Circular Dependency Detection** (`TestCircularDependencyDetection`)
+- Two-node cycle, self-dependency, three-node cycle, detection on both `.get_execution_plan()` and `.run()`, partial cycles, error message content
+
+**Retry Logic** (`TestRetryLogic`)
+- Transient failure recovery, exhausted retries, zero-retry immediate failure, retry counter accuracy, **exponential backoff verified by patching `asyncio.sleep`** and asserting delay sequence `[1.0, 2.0, 4.0]`, exception stored in `task.result`, metrics retry count
+
+**Concurrency Limits** (`TestConcurrencyLimits`)
+- `max_concurrency=1` enforces serial execution (overlap detection), `max_concurrency=0` unlimited starts all tasks simultaneously, limit of 2 never exceeded with 6 tasks, all tasks complete under a cap, concurrency respected per topological group
+
+**Observer Callbacks** (`TestObserverCallbacks`)
+- `on_task_start`, `on_task_complete`, `on_task_fail` fire correctly; cross-event isolation; multiple callbacks all invoked

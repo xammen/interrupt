@@ -1,0 +1,12 @@
+[92m[1m| [0m[90m Write    [0mworkdirs\sonnet_two_step\run_1\task_scheduler.py
+`task_scheduler.py` written. Here's a summary of what's implemented:
+
+**`Task` dataclass** — all required fields including `priority` validation (1–10), `status` enum, and `result: Optional[Any]`.
+
+**`TaskScheduler` class:**
+- `add_task(task, coroutine_factory)` — registers a task with a zero-arg factory (needed so retries can create a fresh coroutine).
+- `get_execution_plan()` — returns `List[List[str]]` of concurrent groups via Kahn's topological sort; raises `CircularDependencyError` on cycles, `TaskNotFoundError` on unknown deps.
+- `run()` — executes level-by-level; within each level tasks are sorted by descending priority and run concurrently under an `asyncio.Semaphore(max_concurrency)`.
+- **Retry logic** — exponential back-off `min(2**attempt, 60)` seconds, up to `task.max_retries` retries.
+- **Observer pattern** — `on_task_start`, `on_task_complete`, `on_task_fail` accept async callbacks via `_EventBus`.
+- **Metrics** — `TaskMetrics` per task (start/end times, elapsed, retry count) plus `total_elapsed` on the scheduler.

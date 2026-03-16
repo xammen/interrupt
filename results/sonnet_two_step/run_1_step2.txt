@@ -1,0 +1,26 @@
+[92m[1m| [0m[90m Write    [0mworkdirs\sonnet_two_step\run_1\test_task_scheduler.py
+The test file `test_task_scheduler.py` has been written. Here's what it covers:
+
+**Test classes and coverage:**
+
+| Class | Focus |
+|---|---|
+| `TestTaskDataclass` | Priority validation, default field values |
+| `TestTaskMetrics` | `elapsed` property edge cases |
+| `TestSchedulerConstruction` | Constructor validation, initial state |
+| `TestBasicExecution` | Single/multiple tasks, results, status, metrics |
+| `TestDependencyResolution` | Linear chains, fan-in, unknown deps, `get_execution_plan` |
+| `TestCircularDependencyDetection` | Direct cycles, 3-node cycles, self-deps, diamond (no false positive) |
+| `TestRetryLogic` | Retry-then-succeed, exhausted retries, backoff values, 60s cap, retry count tracking |
+| `TestObserverPattern` | `on_task_start/complete/fail` callbacks, multiple listeners |
+| `TestConcurrencyLimits` | Peak concurrency never exceeds limit, priority ordering within a group, deps + concurrency |
+
+**Key techniques used:**
+- `patch("asyncio.sleep", new_callable=AsyncMock)` to make retry tests fast and to assert exact backoff delays (`[2, 4, 8]`)
+- Shared mutable state (`running[0]`, `peak`) to measure real concurrency peaks
+- `asyncio.sleep(0)` to yield control and expose true parallelism in concurrency tests
+
+Run with:
+```bash
+pytest test_task_scheduler.py -v
+```

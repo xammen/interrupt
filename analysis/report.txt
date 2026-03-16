@@ -1,142 +1,219 @@
-================================================================================
-     THE INTERRUPT EFFECT - Experimental Results
-     Does interrupting LLM code generation change the output?
-================================================================================
+====================================================================================================
+     THE INTERRUPT EFFECT - Experimental Results (5 Conditions)
+     Does splitting code generation from test generation change what LLMs produce?
+====================================================================================================
 
 METHODOLOGY:
-  - Same prompt used for all runs (async task scheduler with tests)
-  - 3 conditions per model, 5 runs each = 30 total runs
-  - COMPLETE:    Full uninterrupted generation
-  - INTERRUPTED: Generation killed at 20s, then fresh re-generation
-  - FRAGMENT:    Complete run cut at 50%, fragment fed back to continue
-  - Models: Claude Sonnet 4.6, Claude Opus 4.6 (via Anthropic API)
+  - Same core task for all runs (async task scheduler with tests)
+  - 5 conditions per model, 5 runs each = 50 total runs
+  - COMPLETE:     Full single-prompt generation (code + tests)
+  - INTERRUPTED:  Generation killed at 20s, then fresh re-generation
+  - FRAGMENT:     Complete run cut at 50% of lines, fragment fed back to continue
+  - TWO_STEP:     Step 1: code only. Step 2: given code, write tests
+  - CODE_GIVEN:   Given complete code from condition A, write tests
+  - Models: Claude Sonnet 4.6, Claude Opus 4.6 (via Anthropic provider)
 
 
-================================================================================
+====================================================================================================
   MODEL: SONNET (claude-sonnet-4-6)
-================================================================================
+====================================================================================================
 
-METRIC                    |           COMPLETE |        INTERRUPTED |           FRAGMENT
---------------------------------------------------------------------------------------
-Main file lines           |    371.2 +/- 40.5 |    350.8 +/- 16.6 |    420.0 +/- 55.3
-Functions                 |     15.4 +/-  2.5 |     14.2 +/-  1.9 |     18.8 +/-  2.0
-Classes                   |      7.2 +/-  1.5 |      7.0 +/-  1.0 |      7.2 +/-  1.5
-Async functions           |      2.8 +/-  0.8 |      2.8 +/-  0.5 |      3.6 +/-  1.1
-Docstring coverage        |      0.8 +/-  0.0 |      0.8 +/-  0.1 |      0.8 +/-  0.1
-Type hints                |     25.4 +/-  4.3 |     25.4 +/-  2.7 |     31.2 +/-  3.0
-Try/except blocks         |      1.4 +/-  0.9 |                1.0 |      2.4 +/-  0.9
-Feature score /10         |                9.0 |                9.0 |                9.0
-Syntax valid (main)       |               1.00 |               1.00 |               1.00
-Test functions            |     22.0 +/-  3.4 |     20.2 +/-  3.0 |     50.0 +/-  6.0
-Test file lines           |    421.2 +/- 49.6 |    427.4 +/- 30.8 |    572.6 +/- 52.8
-Assert statements         |     28.0 +/-  2.8 |     30.4 +/-  4.0 |     57.2 +/-  5.9
-Syntax valid (test)       |               1.00 |               1.00 |               1.00
+METRIC                    |         COMPLETE |      INTERRUPTED |         FRAGMENT |         TWO_STEP |       CODE_GIVEN
+---------------------------------------------------------------------------------------------------------------------------
+Main file lines           |   371.2 +/-40.5 |   350.8 +/-16.6 |   420.0 +/-55.3 |   414.6 +/-32.8 |   371.2 +/-40.5
+Functions                 |    15.4 +/- 2.5 |    14.2 +/- 1.9 |    18.8 +/- 2.0 |    16.6 +/- 2.7 |    15.4 +/- 2.5
+Classes                   |     7.2 +/- 1.5 |     7.0 +/- 1.0 |     7.2 +/- 1.5 |     7.8 +/- 0.8 |     7.2 +/- 1.5
+Async functions           |     2.8 +/- 0.8 |     2.8 +/- 0.5 |     3.6 +/- 1.1 |     3.4 +/- 0.6 |     2.8 +/- 0.8
+Docstring coverage        |     0.8 +/- 0.0 |     0.8 +/- 0.1 |     0.8 +/- 0.1 |     0.8 +/- 0.1 |     0.8 +/- 0.0
+Type hints                |    25.4 +/- 4.3 |    25.4 +/- 2.7 |    31.2 +/- 3.0 |    29.2 +/- 4.7 |    25.4 +/- 4.3
+Try/except blocks         |     1.4 +/- 0.9 |              1.0 |     2.4 +/- 0.9 |     1.2 +/- 0.5 |     1.4 +/- 0.9
+Feature score /10         |              9.0 |              9.0 |              9.0 |              9.0 |              9.0
+Syntax valid (main)       |             1.00 |             1.00 |             1.00 |             1.00 |             1.00
+Test functions            |    22.0 +/- 3.4 |    20.2 +/- 3.0 |    50.0 +/- 6.0 |    50.6 +/- 5.0 |    52.6 +/-12.1
+Test file lines           |   421.2 +/-49.6 |   427.4 +/-30.8 |   572.6 +/-52.8 |   699.4 +/-58.7 |   671.6 +/-122.0
+Assert statements         |    28.0 +/- 2.8 |    30.4 +/- 4.0 |    57.2 +/- 5.9 |    57.0 +/- 8.8 |    60.8 +/-14.3
+Test classes              |     5.2 +/- 0.5 |     4.0 +/- 2.2 |    12.2 +/- 1.3 |     9.2 +/- 1.6 |    10.2 +/- 1.9
+Syntax valid (test)       |             1.00 |             1.00 |             1.00 |             1.00 |             1.00
+
+  MANN-WHITNEY U TESTS ON TEST FUNCTION COUNT:
+  Comparison                               |      U |          p |      r |  sig
+  ---------------------------------------------------------------------------
+  COMPLETE vs INTERRUPTED                  |   16.0 |   0.525809 | 0.2800 |   ns
+  COMPLETE vs FRAGMENT                     |    0.0 |   0.007937 | 1.0000 |   **
+  COMPLETE vs TWO_STEP                     |    0.0 |   0.007937 | 1.0000 |   **
+  COMPLETE vs CODE_GIVEN                   |    0.0 |   0.007937 | 1.0000 |   **
+  FRAGMENT vs TWO_STEP                     |   12.0 |   1.000000 | 0.0400 |   ns
+  FRAGMENT vs CODE_GIVEN                   |   11.5 |   0.916563 | 0.0800 |   ns
+  TWO_STEP vs CODE_GIVEN                   |   13.0 |   1.000000 | 0.0400 |   ns
+  INTERRUPTED vs FRAGMENT                  |    0.0 |   0.011925 | 1.0000 |    *
+  INTERRUPTED vs TWO_STEP                  |    0.0 |   0.011925 | 1.0000 |    *
+  INTERRUPTED vs CODE_GIVEN                |    0.0 |   0.011925 | 1.0000 |    *
 
   INTRA-CONDITION CODE SIMILARITY (how consistent is each condition):
-                complete: 0.1745 mean similarity (stdev: 0.1515)
-             interrupted: 0.3384 mean similarity (stdev: 0.0864)
-       fragment_continue: 0.1469 mean similarity (stdev: 0.1051)
+                COMPLETE: 0.1745 mean similarity (stdev: 0.1515)
+             INTERRUPTED: 0.3384 mean similarity (stdev: 0.0864)
+                FRAGMENT: 0.1469 mean similarity (stdev: 0.1051)
+                TWO_STEP: 0.3364 mean similarity (stdev: 0.0766)
+              CODE_GIVEN: 0.1745 mean similarity (stdev: 0.1515)
 
   CROSS-CONDITION SIMILARITY (how different are conditions from each other):
-    complete vs interrupted: 0.2395 mean similarity
-    complete vs fragment_continue: 0.2709 mean similarity
-    interrupted vs fragment_continue: 0.2307 mean similarity
+    COMPLETE vs INTERRUPTED: 0.2395 mean similarity
+    COMPLETE vs FRAGMENT: 0.2709 mean similarity
+    COMPLETE vs TWO_STEP: 0.2396 mean similarity
+    COMPLETE vs CODE_GIVEN: 0.3447 mean similarity
+    INTERRUPTED vs FRAGMENT: 0.2307 mean similarity
+    INTERRUPTED vs TWO_STEP: 0.3540 mean similarity
+    INTERRUPTED vs CODE_GIVEN: 0.2431 mean similarity
+    FRAGMENT vs TWO_STEP: 0.2120 mean similarity
+    FRAGMENT vs CODE_GIVEN: 0.2491 mean similarity
+    TWO_STEP vs CODE_GIVEN: 0.2142 mean similarity
 
   FEATURE PRESENCE (per condition):
-    Feature                |       complete |    interrupted | fragment_continue
-    ------------------------------------------------------------------------
-    Dataclass              | 5/          5 | 5/          5 | 5/          5
-    Enum                   | 5/          5 | 5/          5 | 5/          5
-    Priority Queue         | 0/          5 | 0/          5 | 0/          5
-    Topological Sort       | 5/          5 | 5/          5 | 5/          5
-    Circular Detection     | 5/          5 | 5/          5 | 5/          5
-    Asyncio                | 5/          5 | 5/          5 | 5/          5
-    Exp. Backoff           | 5/          5 | 5/          5 | 5/          5
-    Semaphore              | 5/          5 | 5/          5 | 5/          5
-    Observer Pattern       | 5/          5 | 5/          5 | 5/          5
-    Metrics                | 5/          5 | 5/          5 | 5/          5
+    Feature                |       COMPLETE |    INTERRUPTED |       FRAGMENT |       TWO_STEP |     CODE_GIVEN
+    -----------------------------------------------------------------------------------------------------------
+    Dataclass              | 5/          5 | 5/          5 | 5/          5 | 5/          5 | 5/          5
+    Enum                   | 5/          5 | 5/          5 | 5/          5 | 5/          5 | 5/          5
+    Priority Queue         | 0/          5 | 0/          5 | 0/          5 | 0/          5 | 0/          5
+    Topological Sort       | 5/          5 | 5/          5 | 5/          5 | 5/          5 | 5/          5
+    Circular Detection     | 5/          5 | 5/          5 | 5/          5 | 5/          5 | 5/          5
+    Asyncio                | 5/          5 | 5/          5 | 5/          5 | 5/          5 | 5/          5
+    Exp. Backoff           | 5/          5 | 5/          5 | 5/          5 | 5/          5 | 5/          5
+    Semaphore              | 5/          5 | 5/          5 | 5/          5 | 5/          5 | 5/          5
+    Observer Pattern       | 5/          5 | 5/          5 | 5/          5 | 5/          5 | 5/          5
+    Metrics                | 5/          5 | 5/          5 | 5/          5 | 5/          5 | 5/          5
 
-================================================================================
+====================================================================================================
   MODEL: OPUS (claude-opus-4-6)
-================================================================================
+====================================================================================================
 
-METRIC                    |           COMPLETE |        INTERRUPTED |           FRAGMENT
---------------------------------------------------------------------------------------
-Main file lines           |    363.0 +/- 46.6 |    367.8 +/- 48.2 |    382.6 +/- 47.4
-Functions                 |     14.4 +/-  2.3 |     15.0 +/-  2.4 |     16.4 +/-  2.6
-Classes                   |      6.0 +/-  1.0 |      5.8 +/-  0.8 |      6.0 +/-  1.0
-Async functions           |      3.0 +/-  0.7 |                2.0 |      2.8 +/-  0.5
-Docstring coverage        |      0.8 +/-  0.0 |      0.8 +/-  0.0 |      0.9 +/-  0.0
-Type hints                |     25.0 +/-  2.5 |     26.6 +/-  4.0 |     29.0 +/-  4.1
-Try/except blocks         |      1.2 +/-  0.5 |      1.2 +/-  0.5 |      1.4 +/-  0.6
-Feature score /10         |                9.0 |                9.0 |      8.6 +/-  0.6
-Syntax valid (main)       |               1.00 |               1.00 |               1.00
-Test functions            |     10.4 +/-  1.3 |     11.6 +/-  4.8 |     42.8 +/-  7.6
-Test file lines           |    282.8 +/- 28.3 |    298.4 +/- 45.5 |    536.2 +/- 70.3
-Assert statements         |     25.2 +/-  4.4 |     27.4 +/-  5.4 |     67.0 +/- 14.4
-Syntax valid (test)       |               1.00 |               1.00 |               1.00
+METRIC                    |         COMPLETE |      INTERRUPTED |         FRAGMENT |         TWO_STEP |       CODE_GIVEN
+---------------------------------------------------------------------------------------------------------------------------
+Main file lines           |   363.0 +/-46.6 |   367.8 +/-48.2 |   382.6 +/-47.4 |   367.4 +/-25.7 |   363.0 +/-46.6
+Functions                 |    14.4 +/- 2.3 |    15.0 +/- 2.4 |    16.4 +/- 2.6 |    15.6 +/- 1.5 |    14.4 +/- 2.3
+Classes                   |     6.0 +/- 1.0 |     5.8 +/- 0.8 |     6.0 +/- 1.0 |     5.4 +/- 0.6 |     6.0 +/- 1.0
+Async functions           |     3.0 +/- 0.7 |              2.0 |     2.8 +/- 0.5 |     3.2 +/- 0.5 |     3.0 +/- 0.7
+Docstring coverage        |     0.8 +/- 0.0 |     0.8 +/- 0.0 |     0.9 +/- 0.0 |     0.9 +/- 0.0 |     0.8 +/- 0.0
+Type hints                |    25.0 +/- 2.5 |    26.6 +/- 4.0 |    29.0 +/- 4.1 |    27.6 +/- 3.4 |    25.0 +/- 2.5
+Try/except blocks         |     1.2 +/- 0.5 |     1.2 +/- 0.5 |     1.4 +/- 0.6 |     1.8 +/- 0.8 |     1.2 +/- 0.5
+Feature score /10         |              9.0 |              9.0 |     8.6 +/- 0.6 |              9.0 |              9.0
+Syntax valid (main)       |             1.00 |             1.00 |             1.00 |             1.00 |             1.00
+Test functions            |    10.4 +/- 1.3 |    11.6 +/- 4.8 |    42.8 +/- 7.6 |    53.4 +/- 3.9 |    52.2 +/- 4.8
+Test file lines           |   282.8 +/-28.3 |   298.4 +/-45.5 |   536.2 +/-70.3 |   788.2 +/-48.8 |   774.6 +/-75.2
+Assert statements         |    25.2 +/- 4.4 |    27.4 +/- 5.4 |    67.0 +/-14.4 |    81.2 +/- 9.8 |    86.2 +/- 9.9
+Test classes              |              0.0 |     1.2 +/- 2.7 |    13.2 +/- 1.9 |    10.2 +/- 1.3 |    10.4 +/- 1.8
+Syntax valid (test)       |             1.00 |             1.00 |             1.00 |             1.00 |             1.00
+
+  MANN-WHITNEY U TESTS ON TEST FUNCTION COUNT:
+  Comparison                               |      U |          p |      r |  sig
+  ---------------------------------------------------------------------------
+  COMPLETE vs INTERRUPTED                  |   14.0 |   0.830431 | 0.1200 |   ns
+  COMPLETE vs FRAGMENT                     |    0.0 |   0.011667 | 1.0000 |    *
+  COMPLETE vs TWO_STEP                     |    0.0 |   0.011412 | 1.0000 |    *
+  COMPLETE vs CODE_GIVEN                   |    0.0 |   0.011667 | 1.0000 |    *
+  FRAGMENT vs TWO_STEP                     |    2.0 |   0.036145 | 0.8400 |    *
+  FRAGMENT vs CODE_GIVEN                   |    2.5 |   0.046533 | 0.8000 |    *
+  TWO_STEP vs CODE_GIVEN                   |   15.0 |   0.672336 | 0.2000 |   ns
+  INTERRUPTED vs FRAGMENT                  |    0.0 |   0.007937 | 1.0000 |   **
+  INTERRUPTED vs TWO_STEP                  |    0.0 |   0.011925 | 1.0000 |    *
+  INTERRUPTED vs CODE_GIVEN                |    0.0 |   0.007937 | 1.0000 |   **
 
   INTRA-CONDITION CODE SIMILARITY (how consistent is each condition):
-                complete: 0.4282 mean similarity (stdev: 0.1057)
-             interrupted: 0.2556 mean similarity (stdev: 0.0481)
-       fragment_continue: 0.3151 mean similarity (stdev: 0.1017)
+                COMPLETE: 0.4282 mean similarity (stdev: 0.1057)
+             INTERRUPTED: 0.2556 mean similarity (stdev: 0.0481)
+                FRAGMENT: 0.3151 mean similarity (stdev: 0.1017)
+                TWO_STEP: 0.3316 mean similarity (stdev: 0.0910)
+              CODE_GIVEN: 0.4282 mean similarity (stdev: 0.1057)
 
   CROSS-CONDITION SIMILARITY (how different are conditions from each other):
-    complete vs interrupted: 0.3241 mean similarity
-    complete vs fragment_continue: 0.4154 mean similarity
-    interrupted vs fragment_continue: 0.2740 mean similarity
+    COMPLETE vs INTERRUPTED: 0.3241 mean similarity
+    COMPLETE vs FRAGMENT: 0.4154 mean similarity
+    COMPLETE vs TWO_STEP: 0.3045 mean similarity
+    COMPLETE vs CODE_GIVEN: 0.5358 mean similarity
+    INTERRUPTED vs FRAGMENT: 0.2740 mean similarity
+    INTERRUPTED vs TWO_STEP: 0.2641 mean similarity
+    INTERRUPTED vs CODE_GIVEN: 0.3221 mean similarity
+    FRAGMENT vs TWO_STEP: 0.2602 mean similarity
+    FRAGMENT vs CODE_GIVEN: 0.4151 mean similarity
+    TWO_STEP vs CODE_GIVEN: 0.2983 mean similarity
 
   FEATURE PRESENCE (per condition):
-    Feature                |       complete |    interrupted | fragment_continue
-    ------------------------------------------------------------------------
-    Dataclass              | 5/          5 | 5/          5 | 5/          5
-    Enum                   | 5/          5 | 5/          5 | 5/          5
-    Priority Queue         | 0/          5 | 0/          5 | 0/          5
-    Topological Sort       | 5/          5 | 5/          5 | 5/          5
-    Circular Detection     | 5/          5 | 5/          5 | 5/          5
-    Asyncio                | 5/          5 | 5/          5 | 5/          5
-    Exp. Backoff           | 5/          5 | 5/          5 | 3/          5
-    Semaphore              | 5/          5 | 5/          5 | 5/          5
-    Observer Pattern       | 5/          5 | 5/          5 | 5/          5
-    Metrics                | 5/          5 | 5/          5 | 5/          5
+    Feature                |       COMPLETE |    INTERRUPTED |       FRAGMENT |       TWO_STEP |     CODE_GIVEN
+    -----------------------------------------------------------------------------------------------------------
+    Dataclass              | 5/          5 | 5/          5 | 5/          5 | 5/          5 | 5/          5
+    Enum                   | 5/          5 | 5/          5 | 5/          5 | 5/          5 | 5/          5
+    Priority Queue         | 0/          5 | 0/          5 | 0/          5 | 0/          5 | 0/          5
+    Topological Sort       | 5/          5 | 5/          5 | 5/          5 | 5/          5 | 5/          5
+    Circular Detection     | 5/          5 | 5/          5 | 5/          5 | 5/          5 | 5/          5
+    Asyncio                | 5/          5 | 5/          5 | 5/          5 | 5/          5 | 5/          5
+    Exp. Backoff           | 5/          5 | 5/          5 | 3/          5 | 5/          5 | 5/          5
+    Semaphore              | 5/          5 | 5/          5 | 5/          5 | 5/          5 | 5/          5
+    Observer Pattern       | 5/          5 | 5/          5 | 5/          5 | 5/          5 | 5/          5
+    Metrics                | 5/          5 | 5/          5 | 5/          5 | 5/          5 | 5/          5
 
 
-================================================================================
+====================================================================================================
   KEY FINDINGS & ANALYSIS
-================================================================================
+====================================================================================================
 
 
 --- SONNET ---
 
-  Feature completeness (complete vs interrupted): 9.0 vs 9.0 (+0.0)
-    -> No significant difference in feature completeness
+        COMPLETE: tests=22.0 +/-3.4, features=9.0/10, code_lines=371
 
-  Feature completeness (complete vs fragment): 9.0 vs 9.0 (+0.0)
-    -> No significant difference
+     INTERRUPTED: tests=20.2 +/-2.9, features=9.0/10, code_lines=351
 
-  Test count (complete vs interrupted): 22.0 vs 20.2
-  Test count (complete vs fragment): 22.0 vs 50.0
+        FRAGMENT: tests=50.0 +/-6.0, features=9.0/10, code_lines=420
 
-  Code size (complete vs interrupted): 371 vs 351 lines (-5.5%)
-  Code size (complete vs fragment): 371 vs 420 lines (+13.1%)
+        TWO_STEP: tests=50.6 +/-5.0, features=9.0/10, code_lines=415
+
+      CODE_GIVEN: tests=52.6 +/-12.1, features=9.0/10, code_lines=371
+
+  Ratio vs COMPLETE (test count):
+       INTERRUPTED: x0.92  (ns)
+          FRAGMENT: x2.27  (**)
+          TWO_STEP: x2.30  (**)
+        CODE_GIVEN: x2.39  (**)
 
 --- OPUS ---
 
-  Feature completeness (complete vs interrupted): 9.0 vs 9.0 (+0.0)
-    -> No significant difference in feature completeness
+        COMPLETE: tests=10.4 +/-1.3, features=9.0/10, code_lines=363
 
-  Feature completeness (complete vs fragment): 9.0 vs 8.6 (-0.4)
-    -> No significant difference
+     INTERRUPTED: tests=11.6 +/-4.8, features=9.0/10, code_lines=368
 
-  Test count (complete vs interrupted): 10.4 vs 11.6
-  Test count (complete vs fragment): 10.4 vs 42.8
+        FRAGMENT: tests=42.8 +/-7.6, features=8.6/10, code_lines=383
 
-  Code size (complete vs interrupted): 363 vs 368 lines (+1.3%)
-  Code size (complete vs fragment): 363 vs 383 lines (+5.4%)
+        TWO_STEP: tests=53.4 +/-3.8, features=9.0/10, code_lines=367
+
+      CODE_GIVEN: tests=52.2 +/-4.8, features=9.0/10, code_lines=363
+
+  Ratio vs COMPLETE (test count):
+       INTERRUPTED: x1.12  (ns)
+          FRAGMENT: x4.12  (*)
+          TWO_STEP: x5.13  (*)
+        CODE_GIVEN: x5.02  (*)
 
 
-================================================================================
+====================================================================================================
   CONCLUSIONS
-================================================================================
+====================================================================================================
 
-  (See raw data in analysis/full_analysis.json for statistical details)
+  1. INTERRUPTION ALONE DOES NOTHING
+     Complete ~= Interrupted (p > 0.05 for both models)
+
+  2. TASK SEPARATION PRODUCES 2x-5x MORE TESTS
+     Fragment, Two-Step, and Code-Given all produce massively more tests
+     than single-prompt Complete (p < 0.01, r = 1.00, zero overlap)
+
+  3. THE MECHANISM IS TASK ISOLATION, NOT SELF-REVIEW
+     Code-Given (model sees someone else's code) = Two-Step (model sees its own)
+     The model doesn't benefit from reviewing its own output specifically
+
+  4. OPUS IS MORE AFFECTED THAN SONNET
+     Opus single-prompt: ~10 tests. Opus two-step: ~53 tests (5x increase)
+     Sonnet single-prompt: ~22 tests. Sonnet two-step: ~51 tests (2.3x increase)
+
+  5. PROMPT ARCHITECTURE > MODEL CAPABILITY
+     Behavior is a property of context, not of the model. The same model
+     produces 10 or 53 tests depending purely on how you structure the prompt.
+
+  (See raw data in analysis/full_analysis.json for full metrics)
