@@ -1,0 +1,4608 @@
+{
+  "sonnet": {
+    "run_1": {
+      "complete": {
+        "total_mutations": 16,
+        "applied": 12,
+        "killed": 10,
+        "survived": 2,
+        "kill_rate": 83.3,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 6,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 6,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": true,
+            "passed": 6,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": false,
+            "passed": 26,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": false,
+            "passed": 26,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 5,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 18,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 3,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 3,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          }
+        ]
+      },
+      "two_step": {
+        "total_mutations": 16,
+        "applied": 12,
+        "killed": 12,
+        "survived": 0,
+        "kill_rate": 100.0,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          }
+        ]
+      },
+      "code_given": {
+        "total_mutations": 16,
+        "applied": 12,
+        "killed": 10,
+        "survived": 2,
+        "kill_rate": 83.3,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": false,
+            "passed": 49,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": false,
+            "passed": 49,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": true,
+            "killed": true,
+            "passed": 16,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 15,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 17,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 35,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 17,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 20,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 20,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          }
+        ]
+      }
+    },
+    "run_2": {
+      "complete": {
+        "total_mutations": 16,
+        "applied": 12,
+        "killed": 6,
+        "survived": 6,
+        "kill_rate": 50.0,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": false,
+            "passed": 20,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": false,
+            "passed": 20,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": false,
+            "passed": 20,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": false,
+            "passed": 20,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": false,
+            "passed": 20,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 7,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": true,
+            "killed": false,
+            "passed": 20,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 3,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          }
+        ]
+      },
+      "two_step": {
+        "total_mutations": 16,
+        "applied": 12,
+        "killed": 12,
+        "survived": 0,
+        "kill_rate": 100.0,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          }
+        ]
+      },
+      "code_given": {
+        "total_mutations": 16,
+        "applied": 12,
+        "killed": 11,
+        "survived": 1,
+        "kill_rate": 91.7,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": true,
+            "killed": true,
+            "passed": 8,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 8,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 11,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 8,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": true,
+            "killed": false,
+            "passed": 44,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 41,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          }
+        ]
+      }
+    },
+    "run_3": {
+      "complete": {
+        "total_mutations": 16,
+        "applied": 13,
+        "killed": 8,
+        "survived": 5,
+        "kill_rate": 61.5,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": false,
+            "passed": 21,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": false,
+            "passed": 21,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": false,
+            "passed": 21,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": false,
+            "passed": 21,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": false,
+            "passed": 21,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": true,
+            "killed": true,
+            "passed": 15,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 12,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 2,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 2,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          }
+        ]
+      },
+      "two_step": {
+        "total_mutations": 16,
+        "applied": 13,
+        "killed": 13,
+        "survived": 0,
+        "kill_rate": 100.0,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          }
+        ]
+      },
+      "code_given": {
+        "total_mutations": 16,
+        "applied": 13,
+        "killed": 11,
+        "survived": 2,
+        "kill_rate": 84.6,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": false,
+            "passed": 61,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": false,
+            "passed": 61,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": true,
+            "killed": true,
+            "passed": 51,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 31,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 31,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 32,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 34,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 34,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          }
+        ]
+      }
+    },
+    "run_4": {
+      "complete": {
+        "total_mutations": 16,
+        "applied": 12,
+        "killed": 7,
+        "survived": 5,
+        "kill_rate": 58.3,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": false,
+            "passed": 18,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": false,
+            "passed": 18,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": false,
+            "passed": 18,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": false,
+            "passed": 18,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": false,
+            "passed": 18,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 12,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 3,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 3,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          }
+        ]
+      },
+      "two_step": {
+        "total_mutations": 16,
+        "applied": 12,
+        "killed": 12,
+        "survived": 0,
+        "kill_rate": 100.0,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          }
+        ]
+      },
+      "code_given": {
+        "total_mutations": 16,
+        "applied": 12,
+        "killed": 10,
+        "survived": 2,
+        "kill_rate": 83.3,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": false,
+            "passed": 40,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": false,
+            "passed": 40,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": true,
+            "killed": true,
+            "passed": 9,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 9,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 28,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 10,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 15,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 15,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          }
+        ]
+      }
+    },
+    "run_5": {
+      "complete": {
+        "total_mutations": 16,
+        "applied": 14,
+        "killed": 9,
+        "survived": 5,
+        "kill_rate": 64.3,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": false,
+            "passed": 25,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": false,
+            "passed": 25,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": false,
+            "passed": 25,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": false,
+            "passed": 25,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": false,
+            "passed": 25,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": true,
+            "killed": true,
+            "passed": 18,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 10,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 16,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 2,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 2,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          }
+        ]
+      },
+      "two_step": {
+        "total_mutations": 16,
+        "applied": 14,
+        "killed": 14,
+        "survived": 0,
+        "kill_rate": 100.0,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          }
+        ]
+      },
+      "code_given": {
+        "total_mutations": 16,
+        "applied": 14,
+        "killed": 13,
+        "survived": 1,
+        "kill_rate": 92.9,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": false,
+            "passed": 69,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": true,
+            "passed": 3,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": true,
+            "killed": true,
+            "passed": 18,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": true,
+            "killed": true,
+            "passed": 51,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 40,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 18,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 21,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 23,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 26,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 26,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "opus": {
+    "run_1": {
+      "complete": {
+        "total_mutations": 16,
+        "applied": 12,
+        "killed": 7,
+        "survived": 5,
+        "kill_rate": 58.3,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 11,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 11,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": true,
+            "passed": 11,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": false,
+            "passed": 12,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": false,
+            "passed": 12,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": false,
+            "passed": 12,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 5,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": true,
+            "killed": false,
+            "passed": 12,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": true,
+            "killed": false,
+            "passed": 12,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          }
+        ]
+      },
+      "two_step": {
+        "total_mutations": 16,
+        "applied": 12,
+        "killed": 12,
+        "survived": 0,
+        "kill_rate": 100.0,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          }
+        ]
+      },
+      "code_given": {
+        "total_mutations": 16,
+        "applied": 12,
+        "killed": 11,
+        "survived": 1,
+        "kill_rate": 91.7,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 4,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 4,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": true,
+            "passed": 4,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 28,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 16,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 33,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 16,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": true,
+            "killed": false,
+            "passed": 56,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 55,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          }
+        ]
+      }
+    },
+    "run_2": {
+      "complete": {
+        "total_mutations": 16,
+        "applied": 13,
+        "killed": 8,
+        "survived": 5,
+        "kill_rate": 61.5,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": false,
+            "passed": 11,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": false,
+            "passed": 11,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": false,
+            "passed": 11,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": false,
+            "passed": 11,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": false,
+            "passed": 11,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 2,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 5,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          }
+        ]
+      },
+      "two_step": {
+        "total_mutations": 16,
+        "applied": 13,
+        "killed": 13,
+        "survived": 0,
+        "kill_rate": 100.0,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 2,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": true,
+            "passed": 5,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": true,
+            "passed": 3,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": true,
+            "killed": true,
+            "passed": 8,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 8,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 8,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 8,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 8,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 8,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 8,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          }
+        ]
+      },
+      "code_given": {
+        "total_mutations": 16,
+        "applied": 13,
+        "killed": 13,
+        "survived": 0,
+        "kill_rate": 100.0,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": true,
+            "passed": 1,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": true,
+            "killed": true,
+            "passed": 11,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 26,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 11,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 24,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 11,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 14,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 14,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          }
+        ]
+      }
+    },
+    "run_3": {
+      "complete": {
+        "total_mutations": 16,
+        "applied": 11,
+        "killed": 9,
+        "survived": 2,
+        "kill_rate": 81.8,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 9,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 9,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": true,
+            "passed": 9,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": false,
+            "passed": 11,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": false,
+            "passed": 11,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 2,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 5,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": false,
+            "killed": null
+          }
+        ]
+      },
+      "two_step": {
+        "total_mutations": 16,
+        "applied": 11,
+        "killed": 11,
+        "survived": 0,
+        "kill_rate": 100.0,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 3,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 3,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": true,
+            "passed": 3,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": true,
+            "killed": true,
+            "passed": 7,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 7,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 7,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 7,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 7,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": false,
+            "killed": null
+          }
+        ]
+      },
+      "code_given": {
+        "total_mutations": 16,
+        "applied": 11,
+        "killed": 11,
+        "survived": 0,
+        "kill_rate": 100.0,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 2,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 2,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": true,
+            "passed": 2,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": true,
+            "killed": true,
+            "passed": 11,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 22,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 11,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 21,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 11,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": false,
+            "killed": null
+          }
+        ]
+      }
+    },
+    "run_4": {
+      "complete": {
+        "total_mutations": 16,
+        "applied": 12,
+        "killed": 6,
+        "survived": 6,
+        "kill_rate": 50.0,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": false,
+            "passed": 9,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": false,
+            "passed": 9,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": false,
+            "passed": 9,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": false,
+            "passed": 9,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": false,
+            "passed": 9,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 2,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 5,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": true,
+            "killed": false,
+            "passed": 9,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          }
+        ]
+      },
+      "two_step": {
+        "total_mutations": 16,
+        "applied": 12,
+        "killed": 12,
+        "survived": 0,
+        "kill_rate": 100.0,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 2,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 4,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": true,
+            "passed": 2,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 9,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 9,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 9,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 9,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 9,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 9,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          }
+        ]
+      },
+      "code_given": {
+        "total_mutations": 16,
+        "applied": 12,
+        "killed": 11,
+        "survived": 1,
+        "kill_rate": 91.7,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 2,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 2,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": true,
+            "passed": 2,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 26,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 14,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 25,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 14,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": true,
+            "killed": false,
+            "passed": 55,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": true,
+            "killed": true,
+            "passed": 14,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          }
+        ]
+      }
+    },
+    "run_5": {
+      "complete": {
+        "total_mutations": 16,
+        "applied": 11,
+        "killed": 9,
+        "survived": 2,
+        "kill_rate": 81.8,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 8,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 8,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": true,
+            "passed": 8,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": false,
+            "passed": 9,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": false,
+            "passed": 9,
+            "failed": 0,
+            "errors": 0,
+            "caught_by": []
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 4,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": false,
+            "killed": null
+          }
+        ]
+      },
+      "two_step": {
+        "total_mutations": 16,
+        "applied": 11,
+        "killed": 11,
+        "survived": 0,
+        "kill_rate": 100.0,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": false,
+            "killed": null
+          }
+        ]
+      },
+      "code_given": {
+        "total_mutations": 16,
+        "applied": 11,
+        "killed": 11,
+        "survived": 0,
+        "kill_rate": 100.0,
+        "per_mutation": [
+          {
+            "mutation": "priority_lower_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 3,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_upper_bound_off_by_one",
+            "applied": true,
+            "killed": true,
+            "passed": 3,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "priority_check_removed",
+            "applied": true,
+            "killed": true,
+            "passed": 3,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_max_retries_zero",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "default_status_running",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "circular_dep_check_disabled",
+            "applied": true,
+            "killed": true,
+            "passed": 6,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "retry_no_backoff",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "semaphore_unlimited",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "swallow_exceptions",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "duplicate_check_disabled",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "completed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 6,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "failed_not_set",
+            "applied": true,
+            "killed": true,
+            "passed": 18,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "observer_not_called",
+            "applied": true,
+            "killed": true,
+            "passed": 0,
+            "failed": 0,
+            "errors": 1,
+            "caught_by": []
+          },
+          {
+            "mutation": "result_not_stored",
+            "applied": true,
+            "killed": true,
+            "passed": 6,
+            "failed": 1,
+            "errors": 0,
+            "caught_by": [
+              "test_task_scheduler"
+            ]
+          },
+          {
+            "mutation": "start_time_not_recorded",
+            "applied": false,
+            "killed": null
+          },
+          {
+            "mutation": "end_time_not_recorded",
+            "applied": false,
+            "killed": null
+          }
+        ]
+      }
+    }
+  }
+}
